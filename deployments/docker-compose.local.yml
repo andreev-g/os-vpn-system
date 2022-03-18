@@ -1,0 +1,9 @@
+version: "3"
+
+services:
+  
+  web-server:
+    build:
+      context: ../
+      dockerfile: deployments/dockerfiles/Dockerfile_web_server
+    network_mode: host
