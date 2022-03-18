@@ -9,6 +9,12 @@ r = redis.Redis(
 routes = web.RouteTableDef()
 
 
+@web.middleware
+async def logger_middleware(request, handler):
+    print(f"process response: {request.url}")
+    return await handler(request)
+
+
 @routes.get("/getall")
 async def get_values(request):
     return web.json_response({
@@ -28,6 +34,6 @@ async def set_value(request):
 
 
 if __name__ == "__main__":
-    app = web.Application()
+    app = web.Application(middlewares=[logger_middleware])
     app.add_routes(routes)
-    web.run_app(app, port=80)
+    web.run_app(app, port=80,)
